@@ -1,0 +1,51 @@
+# في جهازك
+mkdir CloudDevOpsProject
+cd CloudDevOpsProject
+git init
+# أنشئ README.md (سنقدّم محتواه لاحقًا)
+echo "# CloudDevOpsProject" > README.md
+git add README.md
+git commit -m "init: add README"
+
+# إذا عندك gh (GitHub CLI) — ينشئ repo على حسابك
+gh repo create CloudDevOpsProject --public --source=. --remote=origin --push
+
+# أو بدونه، أنشئ repo عبر واجهة GitHub ثم:
+git remote add origin https://github.com/<your-username>/CloudDevOpsProject.git
+git branch -M main
+git push -u origin main
+---------------------------------
+
+بناء الصورة (بدون الدفع بعد):1
+# إن وضعت Dockerfile في docker/Dockerfile
+docker build -t lenaadel/ivolve-app:dev -f .
+# أو لو Dockerfile في جذر المشروع:
+# docker build -t yourdockerhubusername/ivolve-app:dev .
+تشغيل الحاوية محليًا للتأكد:2
+docker run --rm -p 5000:5000 lenaadel/ivolve-app:dev
+# ثم افتح في المتصفح: http://localhost:5000
+-----------------------------------------
+docker login
+# ادمجي اسم المستخدم/الباسورد عند الطلب
+docker push lenaadel/ivolve-app:dev
+
+-----------------------
+minikube start --driver=docker
+
+kubectl get nodes
+kubectl apply -f namespace.yaml
+kubectl apply -f deployment.yaml
+kubectl get pods -n ivolve
+kubectl apply -f service.yaml
+minikube service ivolve-service -n ivolve
+-------------------------------------
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+http://<server-ip>:8080
+ادخلي Jenkins → New Item → Pipeline →
+Pipeline from SCM → اختاري Git
+وحطي رابط Repo:
+https://github.com/AFAFADEL/CloudDevOpsProject.git
+Script Path: FinalProject/jenkins/Jenkinsfile
+Dashboard → Manage Jenkins → System → Global Pipeline Libraries
+----------------------------
