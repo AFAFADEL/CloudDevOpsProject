@@ -4,7 +4,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_CREDENTIALS = 'dockerhub-creds'
+    DOCKERHUB_CREDENTIALS = 'dockerhub-cred'
     GITHUB_CREDENTIALS = 'GitHub'
     IMAGE_NAME = "lenaadel/ivolve-app"
   }
@@ -69,7 +69,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: env.GITHUB_CREDENTIALS, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
           sh """
-            git remote set-url origin https://$GIT_USER:$GIT_PASS@github.com/your-github-username/CloudDevOpsProject.git
+            git remote set-url origin https://$GIT_USER:$GIT_PASS@github.com/AFAFADEL/CloudDevOpsProject.git
             git push origin main || true
           """
         }
