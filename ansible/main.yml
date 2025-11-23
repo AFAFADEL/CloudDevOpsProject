@@ -1,0 +1,21 @@
+---
+- name: Ensure apt cache updated (Debian/Ubuntu)
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+
+- name: Install basic packages
+  apt:
+    name:
+      - git
+      - python3-pip
+      - python3-venv
+      - curl
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Ensure pip docker package (for docker modules) is present
+  pip:
+    name: docker
+    executable: pip3

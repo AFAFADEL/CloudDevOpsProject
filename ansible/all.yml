@@ -1,0 +1,9 @@
+---
+project_name: ivolve
+docker_image: lenaadel/ivolve-app    # غيري لاسم صورتك على DockerHub
+docker_tag: v1                       # أو latest أو v7 إلخ
+container_name: ivolve-app
+host_port: 30085                     # المنفذ على الـ host
+container_port: 5000                 # المنفذ داخل الحاوية (كما في تطبيقك)
+env_vars:                             # متغيرات بيئة اختياريّة
+  FLASK_ENV: production

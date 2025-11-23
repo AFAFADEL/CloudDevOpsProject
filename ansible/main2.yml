@@ -1,0 +1,23 @@
+---
+- name: Ensure any previous container is absent (stop & remove)
+  docker_container:
+    name: "{{ container_name }}"
+    state: absent
+  ignore_errors: yes
+
+- name: Pull Docker image from DockerHub
+  docker_image:
+    name: "{{ docker_image }}"
+    tag: "{{ docker_tag }}"
+    source: pull
+
+- name: Run container
+  docker_container:
+    name: "{{ container_name }}"
+    image: "{{ docker_image }}:{{ docker_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "{{ host_port }}:{{ container_port }}"
+    env: "{{ env_vars }}"
+    recreate: yes

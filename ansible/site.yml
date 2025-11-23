@@ -1,0 +1,11 @@
+---
+- name: Prepare and deploy ivolve app
+  hosts: webservers
+  become: true
+  vars_files:
+    - all.yml
+
+  roles:
+    - common
+    - docker
+    - app

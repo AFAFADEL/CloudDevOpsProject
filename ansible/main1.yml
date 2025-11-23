@@ -1,0 +1,44 @@
+---
+- name: Install Docker (using apt) - pre-reqs
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg-agent
+      - software-properties-common
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Add Docker repo
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install docker-ce
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Ensure docker service started and enabled
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add deploy user to docker group (if non-root needed)
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
